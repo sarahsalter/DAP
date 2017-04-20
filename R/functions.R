@@ -48,8 +48,7 @@ get_data <- function(congress, billrange, debug = F){
                 
                 # introduced to house 
                 house.df[i,1] <- inul(sum(ifelse(temp$text == introduced,1,0)) > 0)
-                house.df[i,2] <- inul(temp[which(ifelse(temp$text == introduced,T,F)),]$acted_at)
-                
+                house.df[i,2] <- inul(house.l[[i]]$introduced_at)
                 
                 # Referred to the House Committee on the Judiciary.
                 house.df[i,3] <- inul(sum(ifelse(temp$text == housecjud,1,0)) > 0)
@@ -101,4 +100,35 @@ get_data <- function(congress, billrange, debug = F){
                                    "h_house_passage_result", "number", "congress")
         
         return(house.df)
+}
+
+
+get_raw_data <- function(congress, billrange, debug = F){
+  # this function gets some of the data on congressional laws from the 
+  # house of representatives from govtrack.us
+  
+  congress <- congress
+  
+  # making a list to store unstructured data
+  house.l <- list()
+  
+  # creating a data frame to store structured data
+  house.df <- as_data_frame(matrix(rep(NA, 21*max(billrange)), 
+                                   ncol = 21))
+  
+  # forloop to collect data
+  
+  for (i in billrange){
+    if (debug == T){
+      print(paste("congress: ", congress, "bill", i))
+    }
+    # getting URL to scrape based off of the congress, and bill number
+    jsonfile <- paste("https://www.govtrack.us/data/congress/", congress,
+                      "/bills/hr/hr",i,"/data.json", sep = "")
+    
+    # storing data into a list
+    house.l[[i]] <- jsonlite::fromJSON(jsonfile)
+    
+    return(house.l)
+  }
 }

@@ -28,12 +28,12 @@ introduced <- "Introduced in House"
 housecjud <- "Referred to the House Committee on the Judiciary."
 subcrime <- "Referred to the Subcommittee on Crime, Terrorism, Homeland Security, and Investigations."
 
-congress <- 114
+congress <- 113
 house115.l <- list()
-house115.df <- as_data_frame(matrix(rep(NA, no_cols*(max(house_vet_healt114))), 
+house115.df <- as_data_frame(matrix(rep(NA, no_cols*(max(house_vet_healt113))), 
                       ncol = no_cols))
 
-for (i in house_vet_healt114){
+for (i in house_vet_healt113){
         print(i)
         jsonfile <- paste("https://www.govtrack.us/data/congress/", congress,
         "/bills/hr/hr",i,"/data.json", sep = "")
@@ -49,7 +49,7 @@ for (i in house_vet_healt114){
                 inul()
         house115.df[i,2] <- temp[which(ifelse(temp$text == introduced,T,F)),]$acted_at %>%
                 inul()
-        
+        $introduced_at
 
         # Referred to the House Committee on the Judiciary.
         house115.df[i,3] <- sum(ifelse(temp$text == housecjud,1,0)) > 0 

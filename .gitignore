@@ -1,2 +1,4 @@
-# ignoring passwords for g accounts
-sensitive.R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata

@@ -21,7 +21,7 @@ plot(prophet.model)
 prophet_plot_components(prophet.model, predict(prophet.model, dat))
 
 
-prophet:::predict.prophet(prophet.model, dat) %>% plot()
+predict.prophet(prophet.model, dat) %>% plot()
 
 library(ggplot2)
 

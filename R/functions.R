@@ -1,4 +1,6 @@
 # functions:
+# This function takes a value and returns a zero if it is null.
+# important as some entries of the scrapped list are null.
 
 inul <- function(x){
         x <- if(is.null(x)){
@@ -10,11 +12,13 @@ inul <- function(x){
 }
 
 
+
+# this function gets some of the data on congressional laws from the 
+# house of representatives from govtrack.us
 library(jsonlite)
 library(dplyr)
 get_data <- function(congress, billrange, debug = F){
-        # this function gets some of the data on congressional laws from the 
-        # house of representatives from govtrack.us
+
         
         congress <- congress
         
@@ -22,7 +26,7 @@ get_data <- function(congress, billrange, debug = F){
         house.l <- list()
         
         # creating a data frame to store structured data
-        house.df <- as_data_frame(matrix(rep(NA, 21*max(billrange)), 
+        house.df <- dplyr::as_data_frame(matrix(rep(NA, 21*max(billrange)), 
                                             ncol = 21))
         
         # forloop to collect data
@@ -59,6 +63,7 @@ get_data <- function(congress, billrange, debug = F){
                 house.df[i,5] <- inul(sum(ifelse(temp$text == subcrime,1,0)) > 0)
                 #house.df[i,6] <- temp[which(ifelse(temp$text == subcrime,T,F)),]$acted_at
                 
+                # the below code stores listed objects into our data frame
                 house.df[i,7] <- house.l[[i]]$subjects_top_term  %>%
                         inul()
                 house.df[i,8] <- house.l[[i]]$status %>%
@@ -100,6 +105,7 @@ get_data <- function(congress, billrange, debug = F){
                                    "h_house_passage_result", "number", "congress")
         
         return(house.df)
+        
 }
 
 

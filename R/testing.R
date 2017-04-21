@@ -47,9 +47,8 @@ for (i in house_vet_healt113){
         # introduced to house 
         house115.df[i,1] <- sum(ifelse(temp$text == introduced,1,0)) > 0 %>%
                 inul()
-        house115.df[i,2] <- temp[which(ifelse(temp$text == introduced,T,F)),]$acted_at %>%
-                inul()
-        $introduced_at
+        house115.df[i,2] <- house115.l[[i]]$introduced_at
+        #house115.l[[i]]$introduced_at
 
         # Referred to the House Committee on the Judiciary.
         house115.df[i,3] <- sum(ifelse(temp$text == housecjud,1,0)) > 0 
